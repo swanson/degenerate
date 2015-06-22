@@ -2,6 +2,8 @@ Playing around with using Google's [or-tools][ot] to optimize daily fantasy rost
 
 Currently, the Python bindings for or-tools are not easy to install, so that is left as an exercise for the reader :)
 
+Initial inspiration and data model: http://www.barelyknown.com/blog/2014/11/13/d6q2mihtpbtehi3u6sh7z8vc7rnr4f
+
 ---
 
 Progress:
