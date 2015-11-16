@@ -64,7 +64,7 @@ def run():
   solver = pywraplp.Solver('FD', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
   all_players = []
-  with open('projections.csv', 'rb') as csvfile:
+  with open('projections/sample-nba.csv', 'rb') as csvfile:
     csvdata = csv.DictReader(csvfile, skipinitialspace=True)
 
     for row in csvdata:

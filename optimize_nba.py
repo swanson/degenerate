@@ -20,9 +20,11 @@ class Player:
 
 class Roster:
   POSITION_ORDER = {
-    "QB": 0,
-    "RB": 1,
-    "WR": 2
+    "PG": 0,
+    "SG": 1,
+    "SF": 2,
+    "PF": 3,
+    "C": 4
   }
 
   def __init__(self):
@@ -52,18 +54,20 @@ class Roster:
 SALARY_CAP = 50000
 
 POSITION_LIMITS = [
-  ["QB", 2, 2],
-  ["RB", 2, 4],
-  ["WR", 3, 5]
+  ["PG", 1, 3],
+  ["SG", 1, 3],
+  ["SF", 1, 3],
+  ["PF", 1, 3],
+  ["C", 1, 2]
 ]
 
-ROSTER_SIZE = 9
+ROSTER_SIZE = 8
 
 def run():
-  solver = pywraplp.Solver('DK', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
+  solver = pywraplp.Solver('FD', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
   all_players = []
-  with open('cfb_week11_late.csv', 'rb') as csvfile:
+  with open('nba-10-28-2015.csv', 'rb') as csvfile:
     csvdata = csv.DictReader(csvfile, skipinitialspace=True)
 
     for row in csvdata:

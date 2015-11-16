@@ -22,7 +22,8 @@ class Roster:
   POSITION_ORDER = {
     "QB": 0,
     "RB": 1,
-    "WR": 2
+    "WR": 2,
+    "TE": 3
   }
 
   def __init__(self):
@@ -32,7 +33,7 @@ class Roster:
     self.players.append(player)
 
   def spent(self):
-    return sum(map(lambda x: x.salary, self.players))
+    return sum(map(lambda x: x.salary, self.players)) + DST_COST
 
   def projected(self):
     return sum(map(lambda x: x.projected, self.players))
@@ -49,21 +50,23 @@ class Roster:
     s += "\tCost: $%s" % self.spent()
     return s
 
-SALARY_CAP = 50000
+DST_COST = 11
+SALARY_CAP = 200 - DST_COST
 
 POSITION_LIMITS = [
-  ["QB", 2, 2],
-  ["RB", 2, 4],
-  ["WR", 3, 5]
+  ["QB", 1, 1],
+  ["RB", 2, 3],
+  ["WR", 3, 4],
+  ["TE", 1, 2]
 ]
 
-ROSTER_SIZE = 9
+ROSTER_SIZE = 8
 
 def run():
-  solver = pywraplp.Solver('DK', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
+  solver = pywraplp.Solver('FD', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
   all_players = []
-  with open('cfb_week11_late.csv', 'rb') as csvfile:
+  with open('nfl_week8_yahoo.csv', 'rb') as csvfile:
     csvdata = csv.DictReader(csvfile, skipinitialspace=True)
 
     for row in csvdata:
