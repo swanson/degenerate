@@ -103,6 +103,7 @@ def optimize(player_pool, existing_rosters):
 
   for roster in existing_rosters:
     unique_players = solver.Constraint(0, UNIQUE_PLAYERS)
+    
     for player in roster.sorted_players():
       i = get_index(player_pool, player)
       unique_players.SetCoefficient(variables[i], 1)
