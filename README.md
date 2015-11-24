@@ -12,6 +12,7 @@ Linear constraint-based daily fantasy lineup optimizer, with support for positio
 
 Example
 ```
+>> python optimize_cfb.py
 Optimal CFB rosters for: $50000
 Unique players per roster: 8
 
