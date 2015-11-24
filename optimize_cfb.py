@@ -57,6 +57,8 @@ POSITION_LIMITS = [
   ["WR", 3, 5]
 ]
 
+NUMBER_OF_LINEUPS = 3
+
 ROSTER_SIZE = 9
 UNIQUE_PLAYERS = 7
 
@@ -65,40 +67,33 @@ def get_index(players, target):
     if player.name == target.name:
       return i
 
-def optimize(existing_rosters):
+def optimize(player_pool, existing_rosters):
   solver = pywraplp.Solver('DK', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
-  all_players = []
-  with open('projections/cfb_week11_late.csv', 'rb') as csvfile:
-    csvdata = csv.DictReader(csvfile, skipinitialspace=True)
-
-    for row in csvdata:
-      all_players.append(Player(row))
+  objective = solver.Objective()
+  objective.SetMaximization()
 
   variables = []
 
-  for player in all_players:
+  for player in player_pool:
     if player.lock:
       variables.append(solver.IntVar(1, 1, player.name))
     elif player.ban:
       variables.append(solver.IntVar(0, 0, player.name))
     else:      
       variables.append(solver.IntVar(0, 1, player.name))
-    
-  objective = solver.Objective()
-  objective.SetMaximization()
 
-  for i, player in enumerate(all_players):
+  for i, player in enumerate(player_pool):
     objective.SetCoefficient(variables[i], player.projected)
 
   salary_cap = solver.Constraint(0, SALARY_CAP)
-  for i, player in enumerate(all_players):
+  for i, player in enumerate(player_pool):
     salary_cap.SetCoefficient(variables[i], player.salary)
 
   for position, min_limit, max_limit in POSITION_LIMITS:
     position_cap = solver.Constraint(min_limit, max_limit)
 
-    for i, player in enumerate(all_players):
+    for i, player in enumerate(player_pool):
       if position == player.position:
         position_cap.SetCoefficient(variables[i], 1)
 
@@ -107,17 +102,17 @@ def optimize(existing_rosters):
     size_cap.SetCoefficient(variable, 1)
 
   for roster in existing_rosters:
-    unique_roster = solver.Constraint(0, UNIQUE_PLAYERS)
+    unique_players = solver.Constraint(0, UNIQUE_PLAYERS)
     for player in roster.sorted_players():
-      i = get_index(all_players, player)
-      unique_roster.SetCoefficient(variables[i], 1)
+      i = get_index(player_pool, player)
+      unique_players.SetCoefficient(variables[i], 1)
 
   solution = solver.Solve()
 
   if solution == solver.OPTIMAL:
     roster = Roster()
 
-    for i, player in enumerate(all_players):
+    for i, player in enumerate(player_pool):
       if variables[i].solution_value() == 1:
         roster.add_player(player)
 
@@ -127,13 +122,21 @@ def optimize(existing_rosters):
 
 
 if __name__ == "__main__":
+  player_pool = []
+  with open('projections/cfb_week11_late.csv', 'rb') as csv_file:
+    csv_data = csv.DictReader(csv_file, skipinitialspace=True)
+
+    for row in csv_data:
+      player_pool.append(Player(row))
+
   print "Optimal CFB rosters for: $%s\n" % SALARY_CAP
   
   rosters = []
-  for i in range(0, 3):
-    roster = optimize(rosters)
+  for i in range(0, NUMBER_OF_LINEUPS):
+    roster = optimize(player_pool, rosters)
+    
     if roster is None:
-      print "Couldn't generate enough rosters"
+      print "Couldn't generate enough rosters :("
       break
     else: 
       rosters.append(roster)
