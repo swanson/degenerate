@@ -60,7 +60,7 @@ POSITION_LIMITS = [
 NUMBER_OF_LINEUPS = 3
 
 ROSTER_SIZE = 9
-UNIQUE_PLAYERS = 7
+UNIQUE_PLAYERS = 8
 
 def get_index(players, target):
   for i, player in enumerate(players):
@@ -103,7 +103,7 @@ def optimize(player_pool, existing_rosters):
 
   for roster in existing_rosters:
     unique_players = solver.Constraint(0, UNIQUE_PLAYERS)
-    
+
     for player in roster.sorted_players():
       i = get_index(player_pool, player)
       unique_players.SetCoefficient(variables[i], 1)
@@ -130,7 +130,8 @@ if __name__ == "__main__":
     for row in csv_data:
       player_pool.append(Player(row))
 
-  print "Optimal CFB rosters for: $%s\n" % SALARY_CAP
+  print "Optimal CFB rosters for: $%s" % SALARY_CAP
+  print "Unique players per roster: %s\n" % UNIQUE_PLAYERS
   
   rosters = []
   for i in range(0, NUMBER_OF_LINEUPS):
