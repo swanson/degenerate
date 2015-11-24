@@ -58,12 +58,18 @@ POSITION_LIMITS = [
 ]
 
 ROSTER_SIZE = 9
+UNIQUE_PLAYERS = 7
 
-def run():
+def get_index(players, target):
+  for i, player in enumerate(players):
+    if player.name == target.name:
+      return i
+
+def optimize(existing_rosters):
   solver = pywraplp.Solver('DK', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
   all_players = []
-  with open('cfb_week11_late.csv', 'rb') as csvfile:
+  with open('projections/cfb_week11_late.csv', 'rb') as csvfile:
     csvdata = csv.DictReader(csvfile, skipinitialspace=True)
 
     for row in csvdata:
@@ -100,6 +106,12 @@ def run():
   for variable in variables:
     size_cap.SetCoefficient(variable, 1)
 
+  for roster in existing_rosters:
+    unique_roster = solver.Constraint(0, UNIQUE_PLAYERS)
+    for player in roster.sorted_players():
+      i = get_index(all_players, player)
+      unique_roster.SetCoefficient(variables[i], 1)
+
   solution = solver.Solve()
 
   if solution == solver.OPTIMAL:
@@ -109,12 +121,22 @@ def run():
       if variables[i].solution_value() == 1:
         roster.add_player(player)
 
-    print "Optimal roster for: $%s\n" % SALARY_CAP
-    print roster
-
+    return roster
   else:
     print "No solution :("
 
 
 if __name__ == "__main__":
-  run()
+  print "Optimal CFB rosters for: $%s\n" % SALARY_CAP
+  
+  rosters = []
+  for i in range(0, 3):
+    roster = optimize(rosters)
+    if roster is None:
+      print "Couldn't generate enough rosters"
+      break
+    else: 
+      rosters.append(roster)
+
+    print "\t\tRoster #%s" % (i + 1)
+    print roster, '\n'
