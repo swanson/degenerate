@@ -12,6 +12,9 @@ class PlayerPool:
       for row in csv_data:
         self.players.append(Player(row))
 
+    return self
+
+  def all_players(self):
     return self.players
 
   def banned_players(self):

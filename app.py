@@ -12,8 +12,7 @@ UNIQUE_PLAYERS = 8
 def index():
   response = ""
 
-  player_pool = PlayerPool()
-  all_players = player_pool.from_csv('projections/cfb_week11_late.csv')
+  player_pool = PlayerPool().from_csv('projections/cfb_week11_late.csv')
   roster_definition = RosterDefinition.DK_CFB
 
   rosters = []
@@ -29,7 +28,8 @@ def index():
   response += "\n<hr>\n"
 
   for i in range(0, NUMBER_OF_LINEUPS):
-    roster = optimizer.generate_roster(all_players, roster_definition, \
+    roster = optimizer.generate_roster(player_pool.all_players(), \
+                                      roster_definition, \
                                       rosters, UNIQUE_PLAYERS)
     
     if roster is None:

@@ -6,7 +6,7 @@ NUMBER_OF_LINEUPS = 3
 UNIQUE_PLAYERS = 8
 
 if __name__ == "__main__":
-  player_pool = PlayerPool().from_csv('projections/cfb_week11_late.csv')
+  players = PlayerPool().from_csv('projections/cfb_week11_late.csv').all_players()
   roster_definition = RosterDefinition.DK_CFB
   
   print "Optimal CFB rosters for: $%s" % roster_definition['salary_cap']
@@ -16,7 +16,7 @@ if __name__ == "__main__":
   optimizer = Optimizer()
 
   for i in range(0, NUMBER_OF_LINEUPS):
-    roster = optimizer.generate_roster(player_pool, roster_definition, \
+    roster = optimizer.generate_roster(players, roster_definition, \
                                       rosters, UNIQUE_PLAYERS)
     
     if roster is None:
