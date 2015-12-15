@@ -6,7 +6,7 @@ NUMBER_OF_LINEUPS = 3
 UNIQUE_PLAYERS = 8
 
 if __name__ == "__main__":
-  player_pool = PlayerPool().fromCSV('projections/cfb_week11_late.csv')
+  player_pool = PlayerPool().from_csv('projections/cfb_week11_late.csv')
   roster_definition = RosterDefinition.DK_CFB
   
   print "Optimal CFB rosters for: $%s" % roster_definition['salary_cap']

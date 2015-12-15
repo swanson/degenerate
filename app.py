@@ -12,14 +12,24 @@ UNIQUE_PLAYERS = 8
 def index():
   response = ""
 
-  player_pool = PlayerPool().fromCSV('projections/cfb_week11_late.csv')
+  player_pool = PlayerPool()
+  all_players = player_pool.from_csv('projections/cfb_week11_late.csv')
   roster_definition = RosterDefinition.DK_CFB
 
   rosters = []
   optimizer = Optimizer()
 
+  response += "Banned:\n"
+  for player in player_pool.banned_players():
+    response += str(player) + "\n"
+
+  response += "\n\nLocked:\n"
+  for player in player_pool.locked_players():
+    response += str(player) + "\n"
+  response += "\n<hr>\n"
+
   for i in range(0, NUMBER_OF_LINEUPS):
-    roster = optimizer.generate_roster(player_pool, roster_definition, \
+    roster = optimizer.generate_roster(all_players, roster_definition, \
                                       rosters, UNIQUE_PLAYERS)
     
     if roster is None:
