@@ -1,3 +1,6 @@
+from flask import Flask
+app = Flask(__name__)
+
 from degenerate import PlayerPool
 from degenerate import Optimizer
 from degenerate import RosterDefinition
@@ -5,13 +8,13 @@ from degenerate import RosterDefinition
 NUMBER_OF_LINEUPS = 3
 UNIQUE_PLAYERS = 8
 
-if __name__ == "__main__":
+@app.route("/")
+def index():
+  response = ""
+
   player_pool = PlayerPool().fromCSV('projections/cfb_week11_late.csv')
   roster_definition = RosterDefinition.DK_CFB
-  
-  print "Optimal CFB rosters for: $%s" % roster_definition['salary_cap']
-  print "Unique players per roster: %s\n" % UNIQUE_PLAYERS
-  
+
   rosters = []
   optimizer = Optimizer()
 
@@ -20,10 +23,16 @@ if __name__ == "__main__":
                                       rosters, UNIQUE_PLAYERS)
     
     if roster is None:
-      print "Couldn't generate enough rosters :("
-      break
+      return "Couldn't generate enough rosters :("
     else: 
       rosters.append(roster)
 
-    print "\t\tRoster #%s" % (i + 1)
-    print roster, '\n'
+    response += "\t\tRoster #%s\n" % (i + 1)
+    response += str(roster)
+    response += "\n\n"
+
+  return response.replace('\n', '<br />')
+
+if __name__ == "__main__":
+  app.debug = True
+  app.run()
