@@ -22,3 +22,6 @@ class PlayerPool:
 
   def locked_players(self):
     return filter(lambda x: x.lock, self.players)
+
+  def as_json(self):
+    return map(lambda x: x.__json___(), self.players)

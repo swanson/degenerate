@@ -2,3 +2,5 @@
 projections
 league
 *.pyc
+dist
+node_modules

@@ -2,7 +2,10 @@ class Roster:
   POSITION_ORDER = {
     "QB": 0,
     "RB": 1,
-    "WR": 2
+    "WR": 2,
+    "TE": 3,
+    "F": 3,
+    "G": 4
   }
 
   def __init__(self):
