@@ -18,7 +18,7 @@ class Roster:
     return sum(map(lambda x: x.salary, self.players))
 
   def projected(self):
-    return sum(map(lambda x: x.projected, self.players))
+    return round(sum(map(lambda x: x.projected, self.players)), 1)
 
   def position_order(self, player):
     return self.POSITION_ORDER[player.position]
@@ -31,3 +31,10 @@ class Roster:
     s += "\n\nProjected Score: %s" % self.projected()
     s += "\tCost: $%s" % self.spent()
     return s
+
+  def __json__(self):
+    return {
+      "projected": self.projected(),
+      "cost": self.spent(),
+      "players": map(lambda x: x.__json__(), self.sorted_players())
+    }

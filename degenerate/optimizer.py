@@ -90,7 +90,6 @@ class Optimizer:
     solution = self.solver.Solve()
 
     if solution == self.solver.OPTIMAL:
-      
       return self._build_roster()
     else:
       return None

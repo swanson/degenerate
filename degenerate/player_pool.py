@@ -14,6 +14,14 @@ class PlayerPool:
 
     return self
 
+  def from_json(self, json_array):
+    self.players = []
+
+    for player_json in json_array:
+      self.players.append(Player.from_json(player_json))
+
+    return self
+
   def all_players(self):
     return self.players
 
@@ -24,4 +32,4 @@ class PlayerPool:
     return filter(lambda x: x.lock, self.players)
 
   def as_json(self):
-    return map(lambda x: x.__json___(), self.players)
+    return map(lambda x: x.__json__(), self.players)
