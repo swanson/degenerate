@@ -27,7 +27,10 @@
 }
 
 .content {
+  padding: 24px;
   padding-top: 64px;  
-  margin: 24px;
   overflow: hidden;
+  background: #e0f7fa url('../static/test-pattern.png');
+  background-repeat: repeat;
+  background-size: 300px;
 }

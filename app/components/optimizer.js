@@ -23,6 +23,30 @@ export default React.createClass({
     })
   },
 
+  toggleLock(target) {
+    var players = this.state.players.map(player => {
+      if (target === player) {
+        player.locked = !player.locked
+        player.banned = false
+      }
+      return player
+    })
+
+    this.setState({players: players})
+  },
+
+  toggleBan(target) {
+    var players = this.state.players.map(player => {
+      if (target === player) {
+        player.banned = !player.banned
+        player.locked = false
+      }
+      return player
+    })
+
+    this.setState({players: players})
+  },
+
   render() {
     return (
       <div>
@@ -31,7 +55,9 @@ export default React.createClass({
           <button onClick={this.optimize}>Optimize</button>
         </div>
         <div className="content">
-          <PlayerPool players={this.state.players} />
+          <PlayerPool players={this.state.players} 
+            onLock={this.toggleLock}
+            onBan={this.toggleBan}/>
           <RosterGrid rosters={this.state.rosters} />
         </div>
       </div>
