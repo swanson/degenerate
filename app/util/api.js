@@ -9,13 +9,13 @@ export default {
     request.send()
   },
 
-  optimize: function(data, cb) {
+  optimize: function(players, cb) {
     var request = new XMLHttpRequest()
     request.open('POST', 'http://localhost:5000/optimize', true)
     request.setRequestHeader('Content-Type', 'application/json')
     request.onload = function() {
       cb(JSON.parse(request.responseText).rosters)
     }
-    request.send(JSON.stringify(data))
+    request.send(JSON.stringify(players))
   }
 }
