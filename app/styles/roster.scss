@@ -1,54 +1,5 @@
-.roster-row {
-  text-align: center;
-  float: left;
-
-  .position {
-    margin-left: 8px;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .name {
-    margin-left: 16px;
-    width: 150px;
-    display: inline-block;
-    text-align: left;
-  }
-
-  .salary {
-    margin-left: 8px;
-    width: 50px;
-    display: inline-block;
-  }
-
-  .projection {
-    margin-left: 8px;
-    width: 50px;
-    display: inline-block;
-    text-align: right;
-  }
-}
-
-.roster {
-  overflow: hidden;
-  width: 320px;
-  margin-bottom: 24px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .stats {
-    float: left;
-    width: 100%;
-    border-top: 1px solid gray;
-
-    .cost {
-      float: left;
-      margin-left: 210px;
-    }
-
-    .projected {
-      float: right;
-      text-align: right;
-    }
-  }
+.roster-grid {
+  display: flex;
+  flexWrap: wrap;
+  justifyContent: space-around;
 }

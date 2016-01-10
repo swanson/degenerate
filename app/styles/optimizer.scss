@@ -1,36 +1,7 @@
-.header {
-  position: fixed;
-  background-color: #00bcd4;
-  top: 0;
-  min-height: 64px;
-  width: 100%;
-  display: flex;
-
-  h1 {
-    color: white;
-    line-height: 64px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
-    margin: 0 24px;
-    letter-spacing: 0;
-    font-weight: 400;
-    flex: 1;
-  }
-
-  button {
-    position: relative;
-    height: 24px;
-    margin-top: 20px;
-    line-height: 24px;
-    margin-right: 24px;
-  }
-}
-
 .content {
   padding: 24px;
-  padding-top: 64px;  
+  padding-top: 92px;
   overflow: hidden;
-  background: #e0f7fa url('../static/test-pattern.png');
-  background-repeat: repeat;
-  background-size: 300px;
+  margin: 0 auto;
+  max-width: 960px;
 }

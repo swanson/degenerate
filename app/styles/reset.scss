@@ -4,4 +4,9 @@ body {
 
   -webkit-font-smoothing: antialiased;
   font-family: Roboto, sans-serif;
+
+  background-image: url('../static/tile.png');
+  background-color: #e0f7fa;
+  background-repeat: repeat;
+  background-size: 300px;
 }

@@ -3,6 +3,10 @@ import API from "../util/api"
 import PlayerPool from "./playerPool"
 import RosterGrid from "./rosterGrid"
 
+import AppBar from 'material-ui/lib/app-bar';
+import FlatButton from 'material-ui/lib/flat-button';
+import Paper from 'material-ui/lib/paper';
+
 export default React.createClass({
   getInitialState() {
     return {
@@ -48,12 +52,20 @@ export default React.createClass({
   },
 
   render() {
+    var style = {
+      position: "fixed"
+    }
+
     return (
       <div>
-        <div className="header">
-          <h1>Optimizer</h1>
-          <button onClick={this.optimize}>Optimize</button>
-        </div>
+        <AppBar title="Degenerate"
+          style = {
+            style
+          }
+          iconElementRight={
+            <FlatButton onTouchTap={this.optimize} label="Optimize"
+            primary={true}/>
+          } />
         <div className="content">
           <PlayerPool players={this.state.players} 
             onLock={this.toggleLock}
